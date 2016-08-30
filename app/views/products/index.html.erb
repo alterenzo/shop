@@ -1,14 +1,37 @@
-<div class="col-sm-6" id="products">
+<div class="col-md-6" id="products">
   <h3>Products</h3>
-  <ul class="list-group">
+  <div class="table">
     <% @products.each do |prod| %>
-      <li class="list-group-item">
-        <%= "#{prod.name}" %>
-      </li>
+      <div class="row">
+        <span class="col-md-4" >
+          <%= "#{prod.name}" %>
+        </span >
+        <span class="col-md-4">
+          <%= "#{prod.price}" %>
+        </span>
+        <span class="col-md-4">
+          <%= link_to 'Add To Cart', cart_elements_path(product_id: prod.id),
+                      method: :post,
+                      class: 'btn btn-success btn-xs',
+                      id: "add_to_cart_#{prod.id}" %>
+        </span>
+      </div>
     <% end %>
-  </ul>
+  </div>
 </div>
 
-<div class="col-sm-6" id="cart">
+<div class="col-md-6" id="cart">
   <h3>Cart</h3>
+  <div class="table">
+    <% current_cart.cart_elements.each do |ce| %>
+      <div class="row">
+        <span class="col-md-6" >
+          <%= "#{ce.product.name}" %>
+        </span >
+        <span class="col-md-6">
+          <%= "#{ce.product.price}" %>
+        </span>
+      </div>
+    <% end %>
+  </div>
 </div>
