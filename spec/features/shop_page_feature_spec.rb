@@ -23,4 +23,22 @@ feature 'main shop page' do
       expect(page).to have_content "#{prod.name}"
     end
   end
+
+  scenario 'removes element from a cart' do
+    prod = create(:product)
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+
+    within "div#cart" do
+      expect(page).to have_content "#{prod.name}"
+    end
+
+    click_link "Remove"
+
+    within 'div#cart' do
+      expect(page).not_to have_content "#{prod.name}"
+    end
+
+  end
 end

@@ -23,13 +23,19 @@
 <div class="col-md-6" id="cart">
   <h3>Cart</h3>
   <div class="table">
-    <% current_cart.cart_elements.each do |ce| %>
+    <% current_cart.cart_elements.each do |cart_el| %>
       <div class="row">
-        <span class="col-md-6" >
-          <%= "#{ce.product.name}" %>
+        <span class="col-md-4" >
+          <%= "#{cart_el.product.name}" %>
         </span >
-        <span class="col-md-6">
-          <%= "#{ce.product.price}" %>
+        <span class="col-md-4">
+          <%= "#{cart_el.product.price}" %>
+        </span>
+        <span class="col-md-4">
+          <%= link_to 'Remove', cart_elements_path(cart_el),
+                      method: :delete,
+                      class: 'btn btn-danger btn-xs',
+                      id: "remove_cart_element_#{cart_el.id}" %>
         </span>
       </div>
     <% end %>

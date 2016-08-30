@@ -9,6 +9,12 @@ class CartElementsController < ApplicationController
     redirect_to root_path
   end
 
+  def destroy
+    @cart_element = CartElement.find(params[:format])
+    @cart_element.destroy
+    redirect_to root_path
+  end
+
   private
 
   def product_params
