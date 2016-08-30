@@ -1,3 +1,14 @@
-<% @products.each do |prod| %>
-  <%= "#{prod.name}" %>
-<% end %>
+<div class="col-sm-6" id="products">
+  <h3>Products</h3>
+  <ul class="list-group">
+    <% @products.each do |prod| %>
+      <li class="list-group-item">
+        <%= "#{prod.name}" %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<div class="col-sm-6" id="cart">
+  <h3>Cart</h3>
+</div>
