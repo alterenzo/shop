@@ -82,31 +82,3 @@ $ rspec
 
 Although the requirement was fairly simple, I've tried to model it making it easy to expand.
 Initially I though of relying on the Cart model to take care of the vouchers, but creating a different class allows to easily add new ones, and also create new kind of criteria (for example an expiry date adding a new column and a validator).
-
-
-
-
-
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
