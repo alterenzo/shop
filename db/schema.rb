@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831071121) do
+ActiveRecord::Schema.define(version: 20160831143802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "applied_vouchers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "cart_id"
+    t.integer  "voucher_id"
+    t.index ["cart_id"], name: "index_applied_vouchers_on_cart_id", using: :btree
+    t.index ["voucher_id"], name: "index_applied_vouchers_on_voucher_id", using: :btree
+  end
 
   create_table "cart_elements", force: :cascade do |t|
     t.integer  "quantity",   default: 0
@@ -45,6 +54,15 @@ ActiveRecord::Schema.define(version: 20160831071121) do
     t.index ["category_id"], name: "index_products_on_category_id", using: :btree
   end
 
+  create_table "vouchers", force: :cascade do |t|
+    t.string   "code"
+    t.decimal  "discount_amount"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_foreign_key "applied_vouchers", "carts"
+  add_foreign_key "applied_vouchers", "vouchers"
   add_foreign_key "cart_elements", "carts"
   add_foreign_key "cart_elements", "products"
   add_foreign_key "products", "categories"

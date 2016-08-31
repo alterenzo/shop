@@ -76,6 +76,18 @@ feature 'main shop page' do
     within 'div#cart_price_row' do
       expect(page).to have_content "Total: #{prod.price + prod1.price}"
     end
+  end
+
+  scenario 'shows a success message if a coupon is applied' do
+    prod = create(:product)
+    create(:voucher)
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+    fill_in 'voucher_code', with: "VOUCHER"
+    click_on 'voucher_submit'
+
+    expect(page).to have_content "Coupon Applied!"
 
   end
 end

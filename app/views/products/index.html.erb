@@ -12,7 +12,7 @@
         <span class="col-md-4">
           <%= link_to 'Add To Cart', cart_elements_path(product_id: prod.id),
                       method: :post,
-                      class: 'btn btn-success btn-xs',
+                      class: "btn btn-success btn-xs",
                       id: "add_to_cart_#{prod.id}" %>
         </span>
       </div>
@@ -35,12 +35,17 @@
           <%= "#{cart_el.price}" %>
         </span>
         <span class="col-md-3">
-          <%= link_to 'Remove', cart_elements_path(cart_el),
+          <%= link_to "Remove", cart_elements_path(id: cart_el.id),
                       method: :delete,
-                      class: 'btn btn-danger btn-xs',
+                      class: "btn btn-danger btn-xs",
                       id: "remove_cart_element_#{cart_el.product.id}" %>
         </span>
       </div>
+    <% end %>
+    <%= form_tag(carts_path(current_cart), method: 'patch') do %>
+      Voucher
+      <%= text_field_tag "voucher_code" %>
+      <%= submit_tag "Submit", class: "btn btn-xs", id: "voucher_submit" %>
     <% end %>
     <div class="row" id="cart_price_row">
       <span class="col-md-8" >
