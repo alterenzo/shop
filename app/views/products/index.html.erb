@@ -38,9 +38,17 @@
           <%= link_to 'Remove', cart_elements_path(cart_el),
                       method: :delete,
                       class: 'btn btn-danger btn-xs',
-                      id: "remove_cart_element_#{cart_el.id}" %>
+                      id: "remove_cart_element_#{cart_el.product.id}" %>
         </span>
       </div>
     <% end %>
+    <div class="row" id="cart_price_row">
+      <span class="col-md-8" >
+        <b>Total:</b>
+      </span >
+      <span class="col-md-4" >
+        <%= current_cart.total_price %>
+      </span >
+    </div>
   </div>
 </div>

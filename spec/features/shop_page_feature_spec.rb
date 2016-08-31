@@ -34,11 +34,34 @@ feature 'main shop page' do
       expect(page).to have_content "#{prod.name}"
     end
 
-    click_link "Remove"
+    click_link "remove_cart_element_#{prod.id}"
 
     within 'div#cart' do
       expect(page).not_to have_content "#{prod.name}"
     end
+  end
 
+  scenario 'increases the quantity if an item is already in the cart' do
+    prod = create(:product)
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+    click_link "add_to_cart_#{prod.id}"
+
+    within 'div#cart' do
+      expect(page).to have_content /.#{prod.name}.2/
+    end
+  end
+
+  scenario 'does not create another cart element' do
+    prod = create(:product)
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+    click_link "add_to_cart_#{prod.id}"
+
+    within 'div#cart' do
+      expect(page).not_to have_content /.#{prod.name}.#{prod.name}/
+    end
   end
 end
