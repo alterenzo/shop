@@ -7,6 +7,7 @@ RSpec.describe CartsController, type: :controller do
         cart = create(:cart)
         prod = create(:product)
         voucher = create(:voucher)
+        create(:cart_element, cart: cart, product: prod, quantity: 1)
         session[:cart_id] = cart.id
 
         expect{ patch :update, params: { voucher_code: "VOUCHER" } }

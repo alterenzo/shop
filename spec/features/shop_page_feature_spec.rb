@@ -99,7 +99,7 @@ feature 'main shop page' do
     fill_in 'voucher_code', with: "INVALIDVOUCHER"
     click_on 'voucher_submit'
 
-    expect(page).to have_content "Coupon not applied"
+    expect(page).to have_content "Voucher must exist"
   end
 
   scenario 'applies discount on the final price' do
@@ -111,9 +111,33 @@ feature 'main shop page' do
     fill_in 'voucher_code', with: "CODE"
     click_on 'voucher_submit'
 
-    expect(page).to have_content "Coupon Applied!"
+    expect(page).to have_content "Discount: -5.0"
+    expect(page).to have_content "Final Price: 5.0"
+  end
 
-      expect(page).to have_content "Discount: -5.0"
-      expect(page).to have_content "Final Price: 5.0"
+  scenario 'does not apply discount if minimum spend condition is not met' do
+    prod = create(:product, price: 10.00)
+    create(:voucher,code: "CODE", discount_amount: 5.00, min_amount: 50)
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+    fill_in 'voucher_code', with: "CODE"
+    click_on 'voucher_submit'
+
+    expect(page).to have_content "You must spend at least £50.0 to use this coupon"
+  end
+
+  scenario 'cart does not include required category for coupon' do
+    prod = create(:product, price: 10.00)
+    required_cat = create(:category, name: "required category")
+    voucher = create(:voucher, code: "CODE", discount_amount: 5 )
+    voucher.categories << required_cat
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+    fill_in 'voucher_code', with: "CODE"
+    click_on 'voucher_submit'
+
+    expect(page).to have_content "At least one item from required category is needed"
   end
 end

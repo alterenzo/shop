@@ -12,7 +12,7 @@ class AppliedVoucher < ApplicationRecord
 
   def verify_min_amount
     if voucher
-      message = "You must spend at least £#{voucher.min_amount} to user this coupon"
+      message = "You must spend at least £#{voucher.min_amount} to use this coupon"
       errors.add(:base, message) unless cart.total_price > voucher.min_amount
     end
   end
