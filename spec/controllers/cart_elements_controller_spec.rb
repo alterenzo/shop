@@ -7,14 +7,16 @@ RSpec.describe CartElementsController, type: :controller do
         prod = create(:product)
         session[:cart_id] = nil
 
-        expect{ post :create, params: {product_id: prod.id} }.to change(Cart, :count).by(1)
+        expect{ post :create, params: {product_id: prod.id} }
+          .to change(Cart, :count).by(1)
       end
 
       it 'creates a new CartElement' do
         prod = create(:product)
         session[:cart_id] = nil
 
-        expect{ post :create, params: {product_id: prod.id} }.to change(CartElement, :count).by(1)
+        expect{ post :create, params: {product_id: prod.id} }
+          .to change(CartElement, :count).by(1)
       end
 
       it 'stores the cart id in the session' do
@@ -28,12 +30,37 @@ RSpec.describe CartElementsController, type: :controller do
     end
 
     context 'when a cart is already in session' do
+      context 'when the product has already been added to the cart' do
+        it 'does not create a new cart element' do
+          cart = create(:cart)
+          prod = create(:product)
+          session[:cart_id] = cart.id
+
+          post :create, params: {product_id: prod.id}
+
+          expect{ post :create, params: {product_id: prod.id} }
+            .not_to change(cart.cart_elements, :count)
+        end
+
+        it 'increases the quantity of the cart element' do
+          cart = create(:cart)
+          prod = create(:product)
+          session[:cart_id] = cart.id
+
+          post :create, params: {product_id: prod.id}
+          post :create, params: {product_id: prod.id}
+
+          expect(CartElement.first.quantity).to eq 2
+        end
+
+      end
       it 'does not create a new cart' do
         cart = create(:cart)
         prod = create(:product)
         session[:cart_id] = cart.id
 
-        expect{ post :create, params: {product_id: prod.id} }.not_to change(Cart, :count)
+        expect{ post :create, params: {product_id: prod.id} }
+          .not_to change(Cart, :count)
       end
 
       it 'adds elements to the cart that is in session' do
@@ -41,7 +68,8 @@ RSpec.describe CartElementsController, type: :controller do
         prod = create(:product)
         session[:cart_id] = cart.id
 
-        expect{ post :create, params: {product_id: prod.id} }.to change(cart.cart_elements, :count).by(1)
+        expect{ post :create, params: {product_id: prod.id} }
+          .to change(Cart.find(cart.id).cart_elements, :count).by(1)
       end
 
       it 'the cart in the sessions does not change' do

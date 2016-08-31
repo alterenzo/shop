@@ -2,9 +2,8 @@ class CartElementsController < ApplicationController
 
   def create
     @cart = current_cart
-    CartElement.create(product_id: product_params[:product_id],
-                       cart_id: @cart.id,
-                       quantity: 1)
+    cart_el = @cart.cart_elements.where(product_id: product_params[:product_id]).first_or_create
+    cart_el.increment(:quantity).save
     session[:cart_id] = @cart.id
     redirect_to root_path
   end
