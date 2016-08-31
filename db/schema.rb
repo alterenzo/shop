@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831143802) do
+ActiveRecord::Schema.define(version: 20160831200930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,11 @@ ActiveRecord::Schema.define(version: 20160831143802) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "categories_vouchers", id: false, force: :cascade do |t|
+    t.integer "voucher_id",  null: false
+    t.integer "category_id", null: false
+  end
+
   create_table "products", force: :cascade do |t|
     t.string   "name"
     t.decimal  "price"
@@ -57,8 +62,11 @@ ActiveRecord::Schema.define(version: 20160831143802) do
   create_table "vouchers", force: :cascade do |t|
     t.string   "code"
     t.decimal  "discount_amount"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.decimal  "min_amount",      default: "0.0"
+    t.integer  "category_id"
+    t.index ["category_id"], name: "index_vouchers_on_category_id", using: :btree
   end
 
   add_foreign_key "applied_vouchers", "carts"
@@ -66,4 +74,5 @@ ActiveRecord::Schema.define(version: 20160831143802) do
   add_foreign_key "cart_elements", "carts"
   add_foreign_key "cart_elements", "products"
   add_foreign_key "products", "categories"
+  add_foreign_key "vouchers", "categories"
 end

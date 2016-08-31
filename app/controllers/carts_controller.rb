@@ -4,11 +4,10 @@ class CartsController < ApplicationController
     voucher = Voucher.where(code: code).first
     applied = AppliedVoucher.new(cart: current_cart,
                                  voucher: voucher)
-
     if applied.save
       flash[:notice] = "Coupon Applied!"
     else
-      flash[:notice] = "Coupon not applied"
+      flash[:errors] = applied.errors.full_messages.to_sentence
     end
     redirect_to root_path
   end

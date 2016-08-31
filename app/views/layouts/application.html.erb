@@ -17,7 +17,7 @@
       </div>
     </nav>
     <% flash.each do |key, value| %>
-      <%= content_tag :div, value, class: "flash #{key}" %>
+      <%= content_tag :div, value, class: "col-md-8", id: "flash #{key}" %>
     <% end %>
     <%= yield %>
   </body>

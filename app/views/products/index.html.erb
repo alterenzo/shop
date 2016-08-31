@@ -3,10 +3,10 @@
   <div class="table">
     <% @products.each do |prod| %>
       <div class="row">
-        <span class="col-md-4" >
+        <span class="col-md-6" >
           <%= "#{prod.name}" %>
         </span >
-        <span class="col-md-4">
+        <span class="col-md-2">
           <%= "#{prod.price}" %>
         </span>
         <span class="col-md-4">
@@ -22,19 +22,22 @@
 
 <div class="col-md-6" id="cart">
   <h3>Cart</h3>
+
+  <%-# List of all elements in the cart  -%>
+
   <div class="table">
     <% current_cart.cart_elements.each do |cart_el| %>
       <div class="row">
-        <span class="col-md-3" >
+        <span class="col-md-6" >
           <%= "#{cart_el.product.name}" %>
         </span >
-        <span class="col-md-3">
+        <span class="col-md-2">
           <%= "#{cart_el.quantity}" %>
         </span>
-        <span class="col-md-3">
+        <span class="col-md-2">
           <%= "#{cart_el.price}" %>
         </span>
-        <span class="col-md-3">
+        <span class="col-md-2">
           <%= link_to "Remove", cart_elements_path(id: cart_el.id),
                       method: :delete,
                       class: "btn btn-danger btn-xs",
@@ -42,6 +45,9 @@
         </span>
       </div>
     <% end %>
+    <%-# End of element list  -%>
+
+
     <%= form_tag(carts_path(current_cart), method: 'patch') do %>
       Voucher
       <%= text_field_tag "voucher_code" %>
@@ -55,5 +61,25 @@
         <%= current_cart.total_price %>
       </span >
     </div>
+
+    <% if !current_cart.vouchers.empty?  %>
+      <div class="row" id="voucher_total_row">
+        <span class="col-md-8" >
+          <b>Discount:</b>
+        </span >
+        <span class="col-md-4" >
+          <%= - current_cart.total_voucher_amount %>
+        </span >
+      </div>
+
+      <div class="row" id="final_price_row">
+        <span class="col-md-8" >
+          <b>Final Price:</b>
+        </span >
+        <span class="col-md-4" >
+          <%= current_cart.final_price %>
+        </span >
+      </div>
+    <% end %>
   </div>
 </div>

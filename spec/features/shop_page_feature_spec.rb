@@ -88,6 +88,32 @@ feature 'main shop page' do
     click_on 'voucher_submit'
 
     expect(page).to have_content "Coupon Applied!"
+  end
 
+  scenario 'shows an error message if a coupon is not found' do
+    prod = create(:product)
+    create(:voucher)
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+    fill_in 'voucher_code', with: "INVALIDVOUCHER"
+    click_on 'voucher_submit'
+
+    expect(page).to have_content "Coupon not applied"
+  end
+
+  scenario 'applies discount on the final price' do
+    prod = create(:product, price: 10.00)
+    create(:voucher,code: "CODE", discount_amount: 5.00)
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+    fill_in 'voucher_code', with: "CODE"
+    click_on 'voucher_submit'
+
+    expect(page).to have_content "Coupon Applied!"
+
+      expect(page).to have_content "Discount: -5.0"
+      expect(page).to have_content "Final Price: 5.0"
   end
 end
