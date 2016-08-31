@@ -64,4 +64,18 @@ feature 'main shop page' do
       expect(page).not_to have_content /.#{prod.name}.#{prod.name}/
     end
   end
+
+  scenario 'shows the total price of items in the cart' do
+    prod = create(:product)
+    prod1 = create(:product)
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+    click_link "add_to_cart_#{prod1.id}"
+
+    within 'div#cart_price_row' do
+      expect(page).to have_content "Total: #{prod.price + prod1.price}"
+    end
+
+  end
 end
