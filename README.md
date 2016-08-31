@@ -1,6 +1,6 @@
 # Shop
 
-A Rails app
+A Rails app that simulates a simple shop page, with a Cart on which is possible to add products, and apply voucher codes.
 
 ### Usage
 
