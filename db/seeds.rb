@@ -22,8 +22,7 @@ data = [{name: "Almond Toe Court Shoes, Patent Black", category: "Women’s Foot
 
 data.each do |x|
   cat = Category.where(name: x[:category]).first_or_create
-  prod = Product.create(name: x[:name], price: x[:price], category_id: cat.id)
-  # stock = Stock.create(product: )
+  prod = Product.create(name: x[:name], price: x[:price], category_id: cat.id, stock: x[:stock])
 end
 
 Voucher.create(code: "5OFF", discount_amount: 5.00)

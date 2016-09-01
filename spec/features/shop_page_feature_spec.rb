@@ -158,4 +158,16 @@ feature 'main shop page' do
 
     expect(page).not_to have_content "Discount:"
   end
+
+  scenario 'will not add an out of stock item to the cart' do
+    prod = create(:product, stock: 0)
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+
+    expect(page).to have_content "Not enough items available in stock"
+    within 'div#cart' do
+      expect(page).not_to have_content "#{prod.name}"
+    end
+  end
 end

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CartElement, type: :model do
 
   let(:product) { spy "product" }
-  subject(:cart_el) { CartElement.create }
+  subject(:cart_el) { create(:cart_element) }
 
   describe "#price" do
     it 'calls #price on product' do
