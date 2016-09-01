@@ -57,7 +57,9 @@ It has a many to many relationship with Vouchers, through the AppliedVoucher mod
 ##### CartElement:
 
 This model represent one single "row" of the cart.
-It also computers its own price, given by the unit price multiplied by quantity.
+It computes its own price, given by the unit price multiplied by quantity.
+
+It also checks for stock availability before creating. (if an item has a stock of 2, it won't let it add more than twice).
 
 ##### Voucher:
 
