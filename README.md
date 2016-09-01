@@ -10,7 +10,8 @@ A Rails app that simulates a simple shop page, with a Cart on which is possible 
  - Run ```$ bundle install```
  - Install PostgreSQL ```brew install postgresql```
  - Create the database with ```$ rake db:create```
- - And migrate ```$ rake db:migrate```
+ - Migrate ```$ rake db:migrate```
+ - And seed the db ```$ rake db:seed```
  - Run ```$ rails s``` to start the server
 
  Once the server is running, visit http://localhost:3000 in your browser
@@ -37,8 +38,8 @@ and only works if the total amount is at least £ 75.00 and one footwear item is
 
 ##### Product:
 
-The "main" model that stores the basic information about products.
-Every product has a category.
+The "main" model that stores the basic information about products, like price, and product name.
+Every product belongs to a category.
 
 ##### Category:
 
@@ -61,12 +62,19 @@ It also computers its own price, given by the unit price multiplied by quantity.
 ##### Voucher:
 
 This model stores the information and validity criteria for every Voucher.
-It has a many to many relationship with carts, though AppliedVoucher, and a many to many relationship with Category.
+It has a many to many relationship with carts, though AppliedVoucher, and a many to many relationship with Category (so that a voucher can have category requirements).
 
 ##### AppliedVoucher:
 
-This is the model that stores the vouchers applied on each cart, and it also takes care of checking the validity criteria, before applying it.
+This is the model that stores the vouchers applied on each cart, and it also takes care of checking the validity criteria, before applying it, with the following methods:
 
+- verify_min_amount: it just adds an error if the cart total price has not reached the minimum amount required by the voucher
+
+- verify_product_categories: it skips the check if the voucher is not there (error handled by another validation), or if the required categories on the voucher are empty (meaning that there are no required categories). Then it checks if any of the products in the cart belongs to one of the required categories.
+
+The validity of each voucher is also checked every time a product is removed from the cart, and if it is not valid, the voucher is removed
+
+(Even though it was not explicitly required in the spec, I have assumed that a same coupon cannot be applied more than once, therefore I have added uniqueness validation on the coupons applied to one cart )
 
 ### Test
 

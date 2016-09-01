@@ -1,10 +1,8 @@
 class AppliedVoucher < ApplicationRecord
   belongs_to :voucher
   belongs_to :cart
-  has_and_belongs_to_many :categories
 
-  validates :cart, presence: true
-  validates :cart_id, uniqueness: { scope: :voucher_id }
+  validates :voucher_id, uniqueness: { scope: :cart_id }
   validate :verify_min_amount
   validate :verify_product_categories
 

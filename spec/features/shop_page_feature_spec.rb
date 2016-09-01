@@ -140,4 +140,22 @@ feature 'main shop page' do
 
     expect(page).to have_content "At least one item from required category is needed"
   end
+
+  scenario 'a voucher is removed if requirements are not met after removing a product' do
+    prod = create(:product, price: 10.00)
+    voucher = create(:voucher, code: "CODE", discount_amount: 5, min_amount: 15.00 )
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+    click_link "add_to_cart_#{prod.id}"
+    fill_in 'voucher_code', with: "CODE"
+    click_on 'voucher_submit'
+
+    expect(page).to have_content "Coupon Applied!"
+    expect(page).to have_content "Discount:"
+
+    click_link"remove_cart_element_#{prod.id}"
+
+    expect(page).not_to have_content "Discount:"
+  end
 end

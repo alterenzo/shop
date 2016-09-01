@@ -1,26 +1,29 @@
-<div class="col-md-6" id="products">
-  <h3>Products</h3>
-  <div class="table">
-    <% @products.each do |prod| %>
-      <div class="row">
-        <span class="col-md-6" >
-          <%= "#{prod.name}" %>
-        </span >
-        <span class="col-md-2">
-          <%= "#{prod.price}" %>
-        </span>
-        <span class="col-md-4">
-          <%= link_to 'Add To Cart', cart_elements_path(product_id: prod.id),
-                      method: :post,
-                      class: "btn btn-success btn-xs",
-                      id: "add_to_cart_#{prod.id}" %>
-        </span>
-      </div>
-    <% end %>
-  </div>
+<div class="col-md-6 col-xs-12" id="products">
+  <h1>Products</h1>
+  <% @categories.each do |cat| %>
+    <h2><%= cat.name %></h2>
+    <div class="table">
+      <% cat.products.each do |prod| %>
+        <div class="row">
+          <span class="col-md-6 col-xs-6" >
+            <%= "#{prod.name}" %>
+          </span >
+          <span class="col-md-2 col-xs-2">
+            <%= "#{prod.price}" %>
+          </span>
+          <span class="col-md-4 col-xs-4">
+            <%= link_to 'Add To Cart', cart_elements_path(product_id: prod.id),
+                        method: :post,
+                        class: "btn btn-success btn-xs",
+                        id: "add_to_cart_#{prod.id}" %>
+          </span>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
-<div class="col-md-6" id="cart">
+<div class="col-md-6 col-xs-12" id="cart">
   <h3>Cart</h3>
 
   <%-# List of all elements in the cart  -%>
@@ -28,16 +31,16 @@
   <div class="table">
     <% current_cart.cart_elements.each do |cart_el| %>
       <div class="row">
-        <span class="col-md-6" >
+        <span class="col-md-6 col-xs-6" >
           <%= "#{cart_el.product.name}" %>
         </span >
-        <span class="col-md-2">
+        <span class="col-md-2 col-xs-2">
           <%= "#{cart_el.quantity}" %>
         </span>
-        <span class="col-md-2">
+        <span class="col-md-2 col-xs-2">
           <%= "#{cart_el.price}" %>
         </span>
-        <span class="col-md-2">
+        <span class="col-md-2 col-xs-2">
           <%= link_to "Remove", cart_elements_path(id: cart_el.id),
                       method: :delete,
                       class: "btn btn-danger btn-xs",
@@ -54,29 +57,29 @@
       <%= submit_tag "Submit", class: "btn btn-xs", id: "voucher_submit" %>
     <% end %>
     <div class="row" id="cart_price_row">
-      <span class="col-md-8" >
+      <span class="col-md-8 col-xs-8" >
         <b>Total:</b>
       </span >
-      <span class="col-md-4" >
+      <span class="col-md-4 col-xs-4" >
         <%= current_cart.total_price %>
       </span >
     </div>
 
     <% if !current_cart.vouchers.empty?  %>
       <div class="row" id="voucher_total_row">
-        <span class="col-md-8" >
+        <span class="col-md-8 col-xs-8" >
           <b>Discount:</b>
         </span >
-        <span class="col-md-4" >
+        <span class="col-md-4 col-xs-4" >
           <%= - current_cart.total_voucher_amount %>
         </span >
       </div>
 
       <div class="row" id="final_price_row">
-        <span class="col-md-8" >
+        <span class="col-md-8 col-xs-8" >
           <b>Final Price:</b>
         </span >
-        <span class="col-md-4" >
+        <span class="col-md-4 col-xs-4" >
           <%= current_cart.final_price %>
         </span >
       </div>

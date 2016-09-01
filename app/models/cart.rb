@@ -12,7 +12,8 @@ class Cart < ApplicationRecord
   end
 
   def final_price
-    total_price - total_voucher_amount
+    result = total_price - total_voucher_amount
+    result < 0 ? 0 : result
   end
 
   private

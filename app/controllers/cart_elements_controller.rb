@@ -11,6 +11,9 @@ class CartElementsController < ApplicationController
   def destroy
     @cart_element = CartElement.find(params[:id])
     @cart_element.destroy
+    current_cart.applied_vouchers.each do |applied|
+      applied.destroy unless applied.valid?
+    end
     redirect_to root_path
   end
 
