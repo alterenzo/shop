@@ -170,4 +170,18 @@ feature 'main shop page' do
       expect(page).not_to have_content "#{prod.name}"
     end
   end
+
+  scenario 'cannot add to cart more than items in stock' do
+    prod = create(:product, stock: 2)
+
+    visit '/'
+    click_link "add_to_cart_#{prod.id}"
+    click_link "add_to_cart_#{prod.id}"
+    click_link "add_to_cart_#{prod.id}"
+
+    expect(page).to have_content "Not enough items available in stock"
+    within 'div#cart' do
+      expect(page).to have_content "#{prod.name} 2"
+    end
+  end
 end
