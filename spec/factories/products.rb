@@ -4,6 +4,7 @@ FactoryGirl.define do
     price { (rand(100.0)*100).round / 100.0 }
     stock 2
     category
+    discount_amount 0.0
   end
 
   sequence :product_name do |n|

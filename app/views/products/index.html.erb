@@ -9,9 +9,12 @@
             <%= "#{prod.name}" %>
           </span >
           <span class="col-md-2 col-xs-2">
-            <%= "#{prod.price}" %>
+            <del><%= "£#{prod.original_price}" if prod.is_discounted? %></del>
           </span>
-          <span class="col-md-4 col-xs-4">
+          <span class="col-md-2 col-xs-2">
+            <%= "£#{prod.price}" %>
+          </span>
+          <span class="col-md-2 col-xs-2">
             <%= link_to 'Add To Cart', cart_elements_path(product_id: prod.id),
                         method: :post,
                         class: "btn btn-success btn-xs",
@@ -38,7 +41,7 @@
           <%= "#{cart_el.quantity}" %>
         </span>
         <span class="col-md-2 col-xs-2">
-          <%= "#{cart_el.price}" %>
+          <%= "£#{cart_el.price}" %>
         </span>
         <span class="col-md-2 col-xs-2">
           <%= link_to "Remove", cart_elements_path(id: cart_el.id),
@@ -61,7 +64,7 @@
         <b>Total:</b>
       </span >
       <span class="col-md-4 col-xs-4" >
-        <%= current_cart.total_price %>
+        <%= "£#{current_cart.total_price}" %>
       </span >
     </div>
 
@@ -71,7 +74,7 @@
           <b>Discount:</b>
         </span >
         <span class="col-md-4 col-xs-4" >
-          <%= - current_cart.total_voucher_amount %>
+          <%= "- £#{current_cart.total_voucher_amount}" %>
         </span >
       </div>
 
@@ -80,7 +83,7 @@
           <b>Final Price:</b>
         </span >
         <span class="col-md-4 col-xs-4" >
-          <%= current_cart.final_price %>
+          <%= "£#{current_cart.final_price}" %>
         </span >
       </div>
     <% end %>

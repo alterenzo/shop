@@ -74,7 +74,7 @@ feature 'main shop page' do
     click_link "add_to_cart_#{prod1.id}"
 
     within 'div#cart_price_row' do
-      expect(page).to have_content "Total: #{prod.price + prod1.price}"
+      expect(page).to have_content "Total: £#{prod.price + prod1.price}"
     end
   end
 
@@ -111,8 +111,8 @@ feature 'main shop page' do
     fill_in 'voucher_code', with: "CODE"
     click_on 'voucher_submit'
 
-    expect(page).to have_content "Discount: -5.0"
-    expect(page).to have_content "Final Price: 5.0"
+    expect(page).to have_content "Discount: - £5.0"
+    expect(page).to have_content "Final Price: £5.0"
   end
 
   scenario 'does not apply discount if minimum spend condition is not met' do
